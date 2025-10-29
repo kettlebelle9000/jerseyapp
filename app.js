@@ -78,7 +78,7 @@ function editJerseyCount(teamName) {
   renderTeams(); // Re-render the team list with updated jersey count
 }
 
-// Initial render of teams when the page loads
-window.onload = function() {
-  renderTeams(); // Call the render function only once when the page loads
-};
+// Ensure the page is fully loaded before rendering
+document.addEventListener("DOMContentLoaded", function() {
+  renderTeams(); // Call the render function once the DOM is ready
+});
