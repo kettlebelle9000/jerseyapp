@@ -15,33 +15,38 @@ teams.forEach((team) => {
   }
 });
 
-// Debugging: Check what is inside teamList after initial setup
-console.log("Initial Team List:", teamList);
+// Set a flag to prevent double-rendering
+let initialLoad = true;
 
 // Render the list of teams and their jersey counts
 function renderTeams() {
-  const teamListElement = document.getElementById('team-list');
-  const remainingJerseysElement = document.getElementById('remaining-jerseys');
+  if (initialLoad) {
+    // Prevent the initial render from happening twice
+    initialLoad = false;
 
-  let totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
-  let remainingJerseys = 50 - totalJerseys;
+    const teamListElement = document.getElementById('team-list');
+    const remainingJerseysElement = document.getElementById('remaining-jerseys');
 
-  // Clear the team list before rendering (to avoid duplicate rendering)
-  teamListElement.innerHTML = '';
+    let totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
+    let remainingJerseys = 50 - totalJerseys;
 
-  // Render the full list of teams and their jersey count
-  teamList.forEach((team) => {
-    const teamItem = document.createElement('li');
-    teamItem.classList.add('team-item');
-    teamItem.innerHTML = `
-      <strong>${team.name}</strong> - Jerseys Given: ${team.jerseyCount}
-      <button onclick="editJerseyCount('${team.name}')">Edit</button>
-    `;
-    teamListElement.appendChild(teamItem);
-  });
+    // Clear the team list before rendering (to avoid duplicate rendering)
+    teamListElement.innerHTML = '';
 
-  // Display remaining jerseys
-  remainingJerseysElement.textContent = `Remaining Jerseys: ${remainingJerseys}`;
+    // Render the full list of teams and their jersey count
+    teamList.forEach((team) => {
+      const teamItem = document.createElement('li');
+      teamItem.classList.add('team-item');
+      teamItem.innerHTML = `
+        <strong>${team.name}</strong> - Jerseys Given: ${team.jerseyCount}
+        <button onclick="editJerseyCount('${team.name}')">Edit</button>
+      `;
+      teamListElement.appendChild(teamItem);
+    });
+
+    // Display remaining jerseys
+    remainingJerseysElement.textContent = `Remaining Jerseys: ${remainingJerseys}`;
+  }
 }
 
 // Function to edit the jersey count for a team
@@ -80,5 +85,5 @@ function editJerseyCount(teamName) {
 
 // Ensure the page is fully loaded before rendering
 document.addEventListener("DOMContentLoaded", function() {
-  renderTeams(); // Call the render function once the DOM is ready
+  renderTeams(); // Render the teams only after the DOM is fully loaded
 });
