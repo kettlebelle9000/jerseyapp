@@ -40,4 +40,29 @@ function renderTeams() {
       <strong>${team.name}</strong> - Jerseys Given: ${team.jerseyCount}
       <button onclick="editJerseyCount('${team.name}')">Edit</button>
     `;
-    teamListElement.appendChild(teamIte
+    teamListElement.appendChild(teamItem);
+  });
+
+  // Display remaining jerseys
+  remainingJerseysElement.textContent = `Remaining Jerseys: ${remainingJerseys}`;
+}
+
+// Function to edit the jersey count for a team
+function editJerseyCount(teamName) {
+  const totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
+  const remainingJerseys = 50 - totalJerseys;
+
+  const team = teamList.find(t => t.name === teamName);
+  const newCount = prompt(`Enter number of jerseys given (1-${remainingJerseys}):`, team ? team.jerseyCount : 0);
+
+  if (newCount && newCount >= 1 && newCount <= remainingJerseys) {
+    team.jerseyCount = parseInt(newCount); // Update team's jersey count
+    localStorage.setItem('teams', JSON.stringify(teamList)); // Save updated data
+    renderTeams(); // Re-render the team list
+  } else {
+    alert(`Please enter a valid number between 1 and ${remainingJerseys}`);
+  }
+}
+
+// Initial render of teams when the page loads
+renderTeams();
