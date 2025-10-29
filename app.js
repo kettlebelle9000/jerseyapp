@@ -6,7 +6,7 @@ const teams = [
 ];
 
 // Load teams data from localStorage (to persist jersey counts between sessions)
-const teamList = JSON.parse(localStorage.getItem('teams')) || [];
+let teamList = JSON.parse(localStorage.getItem('teams')) || [];
 
 // Ensure every team has an initial jersey count of 0 if it's not yet added
 teams.forEach((team) => {
@@ -15,13 +15,18 @@ teams.forEach((team) => {
   }
 });
 
+console.log("Team List after initial setup:", teamList); // Debugging line to see the loaded team list
+
 // Render the list of teams and their jersey counts
 function renderTeams() {
   const teamListElement = document.getElementById('team-list');
   const remainingJerseysElement = document.getElementById('remaining-jerseys');
-
+  
   let totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
   let remainingJerseys = 50 - totalJerseys;
+
+  // Debugging line to ensure the function is running
+  console.log("Rendering Teams...");
 
   // Clear the team list before rendering
   teamListElement.innerHTML = '';
