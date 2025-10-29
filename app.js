@@ -5,6 +5,7 @@ const teams = [
   'PHI', 'JAX', 'LV', 'CLE', 'SF', 'NYJ', 'CAR', 'LAR'
 ];
 
+// Load teams data from localStorage
 const teamList = JSON.parse(localStorage.getItem('teams')) || [];
 
 function renderTeams() {
@@ -13,18 +14,23 @@ function renderTeams() {
   let totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
   let remainingJerseys = 50 - totalJerseys;
 
+  // Clear the team list before rendering
   teamListElement.innerHTML = '';
   
-  teamList.forEach((team, index) => {
+  // Render the full list of teams and their jersey count
+  teams.forEach((team) => {
+    const teamData = teamList.find(t => t.name === team) || { name: team, jerseyCount: 0 };
+
     const teamItem = document.createElement('li');
     teamItem.classList.add('team-item');
     teamItem.innerHTML = `
-      <strong>${team.name}</strong> - Jerseys Given: ${team.jerseyCount}
-      <button onclick="editJerseyCount(${index})">Edit</button>
+      <strong>${teamData.name}</strong> - Jerseys Given: ${teamData.jerseyCount}
+      <button onclick="editJerseyCount('${teamData.name}')">Edit</button>
     `;
     teamListElement.appendChild(teamItem);
   });
 
+  // Display remaining jerseys
   remainingJerseysElement.textContent = `Remaining Jerseys: ${remainingJerseys}`;
 }
 
@@ -35,8 +41,7 @@ function addTeam() {
 
   if (teams.includes(teamName) && !teamList.some(t => t.name === teamName)) {
     if (remainingJerseys > 0) {
-      let jerseyCount = 1; // Default to 1 for new team
-      teamList.push({ name: teamName, jerseyCount: jerseyCount });
+      teamList.push({ name: teamName, jerseyCount: 0 }); // Add new team with 0 jerseys initially
       localStorage.setItem('teams', JSON.stringify(teamList));
       document.getElementById('team-name').value = ''; // Clear input
       renderTeams();
@@ -48,13 +53,20 @@ function addTeam() {
   }
 }
 
-function editJerseyCount(index) {
+function editJerseyCount(teamName) {
   const totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
   const remainingJerseys = 50 - totalJerseys;
 
-  const newCount = prompt(`Enter number of jerseys given (1-${remainingJerseys}):`, teamList[index].jerseyCount);
+  const team = teamList.find(t => t.name === teamName);
+  const newCount = prompt(`Enter number of jerseys given (1-${remainingJerseys}):`, team ? team.jerseyCount : 0);
+  
   if (newCount && newCount >= 1 && newCount <= remainingJerseys) {
-    teamList[index].jerseyCount = parseInt(newCount);
+    if (team) {
+      team.jerseyCount = parseInt(newCount); // Update existing team jersey count
+    } else {
+      teamList.push({ name: teamName, jerseyCount: parseInt(newCount) }); // Add new team if it doesn't exist
+    }
+    
     localStorage.setItem('teams', JSON.stringify(teamList));
     renderTeams();
   } else {
