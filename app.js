@@ -52,7 +52,7 @@ function editJerseyCount(teamName) {
   const remainingJerseys = calculateRemainingJerseys();
 
   const team = teamList.find(t => t.name === teamName);
-  const newCount = prompt(`Enter number of jerseys given (1-${remainingJerseys}):`, team ? team.jerseyCount : 0);
+  const newCount = prompt(`Enter number of jerseys given (0-${remainingJerseys}):`, team ? team.jerseyCount : 0);
 
   // If the user clicks Cancel, return without making any changes
   if (newCount === null) {
@@ -89,4 +89,5 @@ document.addEventListener("DOMContentLoaded", function() {
   // After data is loaded, calculate remaining jerseys and render teams
   renderTeams(); // Render teams once the DOM is fully loaded
 });
+
 
