@@ -15,17 +15,18 @@ teams.forEach((team) => {
   }
 });
 
-console.log("Team List after initial setup:", teamList); // Debugging line to see the loaded team list
+// Debugging: Check what is inside teamList after initial setup
+console.log("Initial Team List:", teamList);
 
 // Render the list of teams and their jersey counts
 function renderTeams() {
   const teamListElement = document.getElementById('team-list');
   const remainingJerseysElement = document.getElementById('remaining-jerseys');
-  
+
   let totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
   let remainingJerseys = 50 - totalJerseys;
 
-  // Debugging line to ensure the function is running
+  // Debugging: Check that renderTeams is running
   console.log("Rendering Teams...");
 
   // Clear the team list before rendering
@@ -39,29 +40,4 @@ function renderTeams() {
       <strong>${team.name}</strong> - Jerseys Given: ${team.jerseyCount}
       <button onclick="editJerseyCount('${team.name}')">Edit</button>
     `;
-    teamListElement.appendChild(teamItem);
-  });
-
-  // Display remaining jerseys
-  remainingJerseysElement.textContent = `Remaining Jerseys: ${remainingJerseys}`;
-}
-
-// Function to edit the jersey count for a team
-function editJerseyCount(teamName) {
-  const totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
-  const remainingJerseys = 50 - totalJerseys;
-
-  const team = teamList.find(t => t.name === teamName);
-  const newCount = prompt(`Enter number of jerseys given (1-${remainingJerseys}):`, team ? team.jerseyCount : 0);
-
-  if (newCount && newCount >= 1 && newCount <= remainingJerseys) {
-    team.jerseyCount = parseInt(newCount); // Update team's jersey count
-    localStorage.setItem('teams', JSON.stringify(teamList)); // Save updated data
-    renderTeams(); // Re-render the team list
-  } else {
-    alert(`Please enter a valid number between 1 and ${remainingJerseys}`);
-  }
-}
-
-// Initial render of teams when the page loads
-renderTeams();
+    teamListElement.appendChild(teamIte
