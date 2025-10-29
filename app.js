@@ -60,8 +60,10 @@ function editJerseyCount(teamName) {
     return; // Do nothing if the user cancels
   }
 
-  if (newCount && newCount >= 1 && newCount <= remainingJerseys) {
-    team.jerseyCount = parseInt(newCount); // Update team's jersey count
+  // If the user entered a valid number (not null or empty) and it's within the remaining range
+  const parsedCount = parseInt(newCount);
+  if (!isNaN(parsedCount) && parsedCount >= 1 && parsedCount <= remainingJerseys) {
+    team.jerseyCount = parsedCount; // Update team's jersey count
     localStorage.setItem('teams', JSON.stringify(teamList)); // Save updated data
     renderTeams(); // Re-render the team list
   } else {
