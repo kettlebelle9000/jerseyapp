@@ -55,6 +55,11 @@ function editJerseyCount(teamName) {
   const team = teamList.find(t => t.name === teamName);
   const newCount = prompt(`Enter number of jerseys given (1-${remainingJerseys}):`, team ? team.jerseyCount : 0);
 
+  // Check if the user clicked Cancel or entered an invalid input
+  if (newCount === null) {
+    return; // Do nothing if the user cancels
+  }
+
   if (newCount && newCount >= 1 && newCount <= remainingJerseys) {
     team.jerseyCount = parseInt(newCount); // Update team's jersey count
     localStorage.setItem('teams', JSON.stringify(teamList)); // Save updated data
