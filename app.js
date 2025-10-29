@@ -55,20 +55,24 @@ function editJerseyCount(teamName) {
   const team = teamList.find(t => t.name === teamName);
   const newCount = prompt(`Enter number of jerseys given (1-${remainingJerseys}):`, team ? team.jerseyCount : 0);
 
-  // Check if the user clicked Cancel or entered an invalid input
+  // If the user clicks Cancel, return without making any changes
   if (newCount === null) {
     return; // Do nothing if the user cancels
   }
 
-  // If the user entered a valid number (not null or empty) and it's within the remaining range
+  // Parse the input as an integer
   const parsedCount = parseInt(newCount);
-  if (!isNaN(parsedCount) && parsedCount >= 1 && parsedCount <= remainingJerseys) {
-    team.jerseyCount = parsedCount; // Update team's jersey count
-    localStorage.setItem('teams', JSON.stringify(teamList)); // Save updated data
-    renderTeams(); // Re-render the team list
-  } else {
+
+  // Check if the input is a valid number and within the range
+  if (isNaN(parsedCount) || parsedCount < 1 || parsedCount > remainingJerseys) {
     alert(`Please enter a valid number between 1 and ${remainingJerseys}`);
+    return; // Don't make any changes if the input is invalid
   }
+
+  // Update the jersey count if the input is valid
+  team.jerseyCount = parsedCount;
+  localStorage.setItem('teams', JSON.stringify(teamList)); // Save updated data to localStorage
+  renderTeams(); // Re-render the team list with updated jersey count
 }
 
 // Initial render of teams when the page loads
