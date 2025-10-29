@@ -15,7 +15,7 @@ teams.forEach((team) => {
   }
 });
 
-// Calculate remaining jerseys dynamically based on the current data
+// Function to calculate remaining jerseys dynamically based on the team data
 function calculateRemainingJerseys() {
   const totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
   return 50 - totalJerseys; // Return the number of remaining jerseys
@@ -27,7 +27,7 @@ function renderTeams() {
   const remainingJerseysElement = document.getElementById('remaining-jerseys');
 
   // Calculate the remaining jerseys dynamically
-  const remainingJerseys = 0;
+  const remainingJerseys = calculateRemainingJerseys();
 
   // Clear the team list before rendering (to avoid duplicate rendering)
   teamListElement.innerHTML = '';
@@ -44,7 +44,6 @@ function renderTeams() {
   });
 
   // Display remaining jerseys
-  remainingJerseys = calculateRemainingJerseys();
   remainingJerseysElement.textContent = `Remaining Jerseys: ${remainingJerseys}`;
 }
 
@@ -89,4 +88,3 @@ function editJerseyCount(teamName) {
 document.addEventListener("DOMContentLoaded", function() {
   renderTeams(); // Render teams once the DOM is fully loaded
 });
-
