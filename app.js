@@ -26,10 +26,7 @@ function renderTeams() {
   let totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
   let remainingJerseys = 50 - totalJerseys;
 
-  // Debugging: Check that renderTeams is running
-  console.log("Rendering Teams...");
-
-  // Clear the team list before rendering
+  // Clear the team list before rendering (to avoid duplicate rendering)
   teamListElement.innerHTML = '';
 
   // Render the full list of teams and their jersey count
@@ -82,4 +79,6 @@ function editJerseyCount(teamName) {
 }
 
 // Initial render of teams when the page loads
-renderTeams();
+window.onload = function() {
+  renderTeams(); // Call the render function only once when the page loads
+};
