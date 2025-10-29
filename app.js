@@ -15,13 +15,19 @@ teams.forEach((team) => {
   }
 });
 
+// Calculate remaining jerseys dynamically
+function calculateRemainingJerseys() {
+  const totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
+  return 50 - totalJerseys; // Return the number of remaining jerseys
+}
+
 // Render the list of teams and their jersey counts
 function renderTeams() {
   const teamListElement = document.getElementById('team-list');
   const remainingJerseysElement = document.getElementById('remaining-jerseys');
 
-  let totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
-  let remainingJerseys = 50 - totalJerseys;
+  // Calculate the remaining jerseys based on the current state
+  const remainingJerseys = calculateRemainingJerseys();
 
   // Clear the team list before rendering (to avoid duplicate rendering)
   teamListElement.innerHTML = '';
@@ -43,8 +49,7 @@ function renderTeams() {
 
 // Function to edit the jersey count for a team
 function editJerseyCount(teamName) {
-  const totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
-  const remainingJerseys = 50 - totalJerseys;
+  const remainingJerseys = calculateRemainingJerseys();
 
   const team = teamList.find(t => t.name === teamName);
   const newCount = prompt(`Enter number of jerseys given (1-${remainingJerseys}):`, team ? team.jerseyCount : 0);
@@ -75,8 +80,8 @@ function editJerseyCount(teamName) {
   // Save updated data to localStorage
   localStorage.setItem('teams', JSON.stringify(teamList));
 
-  // Force a re-render after saving to localStorage
-  renderTeams(); // This ensures the page updates immediately
+  // Re-render the updated data
+  renderTeams(); // Force page update
 }
 
 // Initial render of teams when the page loads
