@@ -15,9 +15,6 @@ teams.forEach((team) => {
   }
 });
 
-// Debugging: Check what is inside teamList after initial setup
-console.log("Initial Team List:", teamList);
-
 // Render the list of teams and their jersey counts
 function renderTeams() {
   const teamListElement = document.getElementById('team-list');
@@ -74,10 +71,12 @@ function editJerseyCount(teamName) {
 
   // Update the jersey count if the input is valid
   team.jerseyCount = parsedCount;
-  localStorage.setItem('teams', JSON.stringify(teamList)); // Save updated data to localStorage
   
-  // Immediately re-render the team list and remaining jerseys
-  renderTeams(); // This ensures the page is updated without requiring a manual refresh
+  // Save updated data to localStorage
+  localStorage.setItem('teams', JSON.stringify(teamList)); 
+
+  // Re-render the team list with updated jersey count and remaining jerseys
+  setTimeout(renderTeams, 0);  // Delay rendering to ensure data is saved first
 }
 
 // Initial render of teams when the page loads
