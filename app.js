@@ -18,8 +18,15 @@ teams.forEach((team) => {
 // Render the list of teams and their jersey counts
 function renderTeams() {
   const teamListElement = document.getElementById('team-list');
-  teamListElement.innerHTML = ''; // Clear the list before rendering
+  const remainingJerseysElement = document.getElementById('remaining-jerseys');
 
+  let totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
+  let remainingJerseys = 50 - totalJerseys;
+
+  // Clear the team list before rendering (to avoid duplicate rendering)
+  teamListElement.innerHTML = '';
+
+  // Render the full list of teams and their jersey count
   teamList.forEach((team) => {
     const teamItem = document.createElement('li');
     teamItem.classList.add('team-item');
@@ -29,21 +36,9 @@ function renderTeams() {
     `;
     teamListElement.appendChild(teamItem);
   });
-}
 
-// Function to render the remaining jerseys and update the page
-function renderUpdatedData(updatedTeams) {
-  const remainingJerseysElement = document.getElementById('remaining-jerseys');
-  
-  // Calculate remaining jerseys after the update
-  const totalJerseys = updatedTeams.reduce((total, team) => total + team.jerseyCount, 0);
-  const remainingJerseys = 50 - totalJerseys;
-
-  // Update the remaining jerseys display
+  // Display remaining jerseys
   remainingJerseysElement.textContent = `Remaining Jerseys: ${remainingJerseys}`;
-  
-  // Re-render the team list
-  renderTeams();
 }
 
 // Function to edit the jersey count for a team
@@ -80,8 +75,8 @@ function editJerseyCount(teamName) {
   // Save updated data to localStorage
   localStorage.setItem('teams', JSON.stringify(teamList));
 
-  // Re-render the updated data
-  renderUpdatedData(teamList);
+  // Force a re-render after saving to localStorage
+  renderTeams(); // This ensures the page updates immediately
 }
 
 // Initial render of teams when the page loads
