@@ -64,13 +64,13 @@ function editJerseyCount(teamName) {
 
   // Check if the input is a valid number and within the range
   if (isNaN(parsedCount)) {
-    alert(`Please enter a valid number between 1 and ${remainingJerseys}`);
+    alert(`Please enter a valid number between 0 and ${remainingJerseys}`);
     return; // Don't proceed if the input is not a number
   }
 
   // Check if the number is within the valid range
-  if (parsedCount < 1 || parsedCount > remainingJerseys) {
-    alert(`Please enter a number between 1 and ${remainingJerseys}`);
+  if (parsedCount < 0 || parsedCount > remainingJerseys) {
+    alert(`Please enter a number between 0 and ${remainingJerseys}`);
     return; // Don't proceed if the number is out of range
   }
 
@@ -89,3 +89,4 @@ document.addEventListener("DOMContentLoaded", function() {
   // After data is loaded, calculate remaining jerseys and render teams
   renderTeams(); // Render teams once the DOM is fully loaded
 });
+
