@@ -86,5 +86,6 @@ function editJerseyCount(teamName) {
 
 // Initial render of teams when the page loads
 document.addEventListener("DOMContentLoaded", function() {
+  // After data is loaded, calculate remaining jerseys and render teams
   renderTeams(); // Render teams once the DOM is fully loaded
 });
