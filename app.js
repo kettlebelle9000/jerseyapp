@@ -73,10 +73,12 @@ function editJerseyCount(teamName) {
   team.jerseyCount = parsedCount;
   
   // Save updated data to localStorage
-  localStorage.setItem('teams', JSON.stringify(teamList));
+  localStorage.setItem('teams', JSON.stringify(teamList)); 
 
-  // Manually trigger a re-render after saving the data to localStorage
-  renderTeams(); // Re-render the team list with updated jersey count
+  // Force the re-render using requestAnimationFrame for smooth updating
+  window.requestAnimationFrame(() => {
+    renderTeams();  // Ensure rendering happens after the localStorage update
+  });
 }
 
 // Initial render of teams when the page loads
