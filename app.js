@@ -16,7 +16,7 @@ function renderTeams() {
 
   // Clear the team list before rendering
   teamListElement.innerHTML = '';
-  
+
   // Render the full list of teams and their jersey count
   teams.forEach((team) => {
     const teamData = teamList.find(t => t.name === team) || { name: team, jerseyCount: 0 };
