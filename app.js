@@ -15,7 +15,7 @@ teams.forEach((team) => {
   }
 });
 
-// Calculate remaining jerseys dynamically
+// Calculate remaining jerseys dynamically based on the current data
 function calculateRemainingJerseys() {
   const totalJerseys = teamList.reduce((total, team) => total + team.jerseyCount, 0);
   return 50 - totalJerseys; // Return the number of remaining jerseys
@@ -26,8 +26,8 @@ function renderTeams() {
   const teamListElement = document.getElementById('team-list');
   const remainingJerseysElement = document.getElementById('remaining-jerseys');
 
-  // Calculate the remaining jerseys based on the current state
-  const remainingJerseys = 0;
+  // Calculate the remaining jerseys dynamically
+  const remainingJerseys = calculateRemainingJerseys();
 
   // Clear the team list before rendering (to avoid duplicate rendering)
   teamListElement.innerHTML = '';
@@ -42,7 +42,7 @@ function renderTeams() {
     `;
     teamListElement.appendChild(teamItem);
   });
-  remainingJerseys = calculateRemainingJerseys();
+
   // Display remaining jerseys
   remainingJerseysElement.textContent = `Remaining Jerseys: ${remainingJerseys}`;
 }
@@ -64,13 +64,13 @@ function editJerseyCount(teamName) {
 
   // Check if the input is a valid number and within the range
   if (isNaN(parsedCount)) {
-    alert(`Please enter a valid number between 0 and ${remainingJerseys}`);
+    alert(`Please enter a valid number between 1 and ${remainingJerseys}`);
     return; // Don't proceed if the input is not a number
   }
 
   // Check if the number is within the valid range
-  if (parsedCount < 0 || parsedCount > remainingJerseys) {
-    alert(`Please enter a number between 0 and ${remainingJerseys}`);
+  if (parsedCount < 1 || parsedCount > remainingJerseys) {
+    alert(`Please enter a number between 1 and ${remainingJerseys}`);
     return; // Don't proceed if the number is out of range
   }
 
@@ -88,5 +88,3 @@ function editJerseyCount(teamName) {
 document.addEventListener("DOMContentLoaded", function() {
   renderTeams(); // Render teams once the DOM is fully loaded
 });
-
-
