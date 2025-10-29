@@ -1,7 +1,6 @@
 body { font-family: Arial, sans-serif; padding: 20px; margin: 0; background-color: #f4f4f4; }
 
-h1 {
-  font-size: 1.8rem;
+h1, h2, h3 {
   text-align: center;
 }
 
